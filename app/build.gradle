@@ -50,6 +50,9 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt"
     kapt "com.google.dagger:hilt-compiler:$hilt"
 
+    implementation "androidx.activity:activity-ktx:$activity"
+    implementation "androidx.fragment:fragment-ktx:$fragment"
+
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.okhttp3:logging-interceptor:$httpLogging"
