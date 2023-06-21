@@ -1,6 +1,6 @@
 package com.wla
 
-import com.sr.metmuseum.util.RemoteSource
+import com.wla.util.RemoteSource
 import com.wla.api.Api
 
 class MainRepository {

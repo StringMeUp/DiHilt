@@ -1,4 +1,4 @@
-package com.sr.metmuseum.models
+package com.wla.models
 
 import com.google.gson.annotations.SerializedName
 

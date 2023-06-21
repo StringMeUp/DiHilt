@@ -1,6 +1,6 @@
 package com.wla.api
 
-import com.sr.metmuseum.models.ObjectDetail
+import com.wla.models.ObjectDetail
 import com.wla.models.ObjectId
 import retrofit2.Response
 import retrofit2.http.GET

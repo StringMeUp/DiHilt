@@ -1,6 +1,5 @@
-package com.sr.metmuseum.util
+package com.wla.util
 
-import com.sr.metmuseum.base.BaseViewModel.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -10,6 +9,13 @@ import retrofit2.Response
 import timber.log.Timber
 
 object RemoteSource {
+
+    sealed class Resource<out T> {
+        object Loading : Resource<Nothing>()
+        data class Success<out T>(val data: T?) : Resource<T>()
+        data class Error(val responseCode: Int? = null) : Resource<Nothing>()
+    }
+
     private const val MM_DEBUG_TAG = "MM_DEBUG_TAG"
     fun <T> launchResultFlow(apiResponse: suspend () -> Response<T>): Flow<Resource<T>> =
         flow {
