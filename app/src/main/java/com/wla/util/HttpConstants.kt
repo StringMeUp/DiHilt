@@ -1,4 +1,4 @@
-package com.sr.metmuseum.util
+package com.wla.util
 
 object HttpConstants {
     const val OKHTTP_TIMEOUT_CONNECT = 10_000L

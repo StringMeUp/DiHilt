@@ -2,7 +2,7 @@ package com.wla
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.sr.metmuseum.util.HttpConstants
+import com.wla.util.HttpConstants
 import com.wla.api.Api
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

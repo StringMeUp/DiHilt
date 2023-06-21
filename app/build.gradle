@@ -43,6 +43,11 @@ android {
     kapt {
         correctErrorTypes true
     }
+
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
 }
 
 dependencies {
