@@ -3,11 +3,20 @@ package com.wla
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.sr.metmuseum.util.Constants
 import com.wla.models.ArtItem
+import com.wla.util.RemoteSource
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 
-class MainViewModel() : ViewModel() {
+class MainViewModel : ViewModel() {
+
+    private val repository = MainRepository()
 
     enum class ObjectType {
         ART, ERROR, EMPTY, DEFAULT, LOADING
@@ -38,28 +47,28 @@ class MainViewModel() : ViewModel() {
         return savedQuery
     }
 
-//    fun searchIds(q: String): Flow<MutableList<ArtItem>> {
-//        return callbackFlow {
-//            searchJob = vi.launch {
-//                repository.search(q)
-//                    .collect {
-//                        when (it) {
-//                            is Resource.Loading -> {
-//                                trySend(ArtItem.loading(true))
-//                            }
-//                            is Resource.Success -> {
-//                                val items = it.data?.artIds?.map { ArtItem(it, ObjectType.ART) }
-//                                    ?.toMutableList()
-//                                trySend(items ?: ArtItem.empty())
-//                            }
-//                            is Resource.Error -> {
-//                                trySend(ArtItem.error())
-//                            }
-//                        }
-//                    }
-//            }
-//
-//            awaitClose { searchJob?.cancel(CancellationException("${Constants.DEBUG_INTENDED} Search cancelled.")) }
-//        }
-//    }
+    fun searchIds(q: String): Flow<MutableList<ArtItem>> {
+        return callbackFlow {
+            searchJob = viewModelScope.launch {
+                repository.search(q)
+                    .collect {
+                        when (it) {
+                            is RemoteSource.Resource.Loading -> {
+                                trySend(ArtItem.loading(true))
+                            }
+                            is RemoteSource.Resource.Success -> {
+                                val items = it.data?.artIds?.map { ArtItem(it, ObjectType.ART) }
+                                    ?.toMutableList()
+                                trySend(items ?: ArtItem.empty())
+                            }
+                            is RemoteSource.Resource.Error -> {
+                                trySend(ArtItem.error())
+                            }
+                        }
+                    }
+            }
+
+            awaitClose { searchJob?.cancel(CancellationException("${Constants.DEBUG_INTENDED} Search cancelled.")) }
+        }
+    }
 }

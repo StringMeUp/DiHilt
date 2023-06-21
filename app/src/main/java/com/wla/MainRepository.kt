@@ -12,5 +12,4 @@ class MainRepository {
     )
 
     suspend fun search(q: String) = RemoteSource.launchResultFlow { api.searchObjectIds(q = q) }
-    suspend fun getDetails(id: Int) = RemoteSource.launchResultFlow { api.getObjectDetails(id) }
 }
